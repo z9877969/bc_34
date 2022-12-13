@@ -1,18 +1,8 @@
 # bc_34
 
-### 0) install creat-react-app
-
-### Install reactjs code snippets, React devtools
-
-### 1) Що таке реакт, для чого та коли використовуеться
-### 2) MPA vs SPA (+ -)
-### 3) Virtual DOM
-### 4) Що таке компоненти та як подiлити iнтерфейс
-### 5) jsx and React.createElement()
-### 6) Functional component (first render Header)
-### 7) js code in jsx
-### 8) one container(div, Fragment, <>)
-### 9) Props, (destr props) PropTypes default props 
-https://ru.react.js.org/docs/typechecking-with-proptypes.html
-### 10) Create cardsContainer component
-### 11) Render collection and key 
+### 1) defaultImage/defaultProps
+### 2) style
+### 3) classes
+### 4) modules (css/composes]|scss)
+### 5) clsx
+### 6) styledcomponents/clobalStyles/theme

@@ -1,41 +1,25 @@
 import PropTypes from "prop-types";
 import ProductsListItem from "../ProductsListItem/ProductsListItem";
+import { List } from "./ProductsList.styled";
 import "./ProductsList.css";
 
 const ProductsList = (props) => {
   const { products } = props;
   return (
-    <ul className="products">
-      {products.map((el) => (
+    <List>
+      {products.map((el, idx) => (
         <ProductsListItem
           key={el.id}
           url={el.url}
           model={el.model}
           price={el.price}
           currency={el.currency}
-        />
-        // <li key={el.id} className="products__item">
-        //   <div className="products__image-wrapper">
-        //     <p className="products__sale">Акція</p>
-        //     <img className="products__image" src={el.url} alt={el.model} />
-        //   </div>
-        //   <div className="products__descr">
-        //     <h3 className="products__model">{el.model}</h3>
-        //     {el.price ? (
-        //       <>
-        //         <span className="products__price">{el.price}</span>
-        //         <span className="products__currency">{el.currency}</span>
-        //       </>
-        //     ) : (
-        //       <span className="products__currency">Товар відсутній</span>
-        //     )}
-        //   </div>
-        //   <button className="products__btn-buy" type="button">
-        //     Купити
-        //   </button>
-        // </li>
+          isOdd={idx % 2 !== 0}
+        >
+          <h3>ItemTitle</h3>
+        </ProductsListItem>
       ))}
-    </ul>
+    </List>
   );
 };
 
@@ -44,3 +28,33 @@ ProductsList.propTypes = {
 };
 
 export default ProductsList;
+
+// const SectionWrapper = ({ title, children }) => {
+//   return (
+//     <section>
+//       <div className="container">
+//         {title && <h2>{title}</h2>}
+//         {children}
+//       </div>
+//     </section>
+//   );
+// };
+{/* <SectionWrapper>
+  <ul>
+    <li>Item</li>
+    <li>Item</li>
+    <li>Item</li>
+  </ul>
+</SectionWrapper>; */}
+{
+  /* <SectionWrapper />
+<SectionWrapper />
+<SectionWrapper />
+<SectionWrapper /> */
+}
+
+{/* <section>
+  <div className="container">
+    <h2></h2>
+  </div>
+</section>; */}

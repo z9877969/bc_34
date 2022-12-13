@@ -1,14 +1,11 @@
 import Filter from "../Filter/Filter";
 import ProductsList from "../ProductsList/ProductsList";
 import products from "../../data/products.json";
-import "./Main.css";
-
-console.log("products :>> ", products);
+import s from "./Main.module.scss";
 
 const Main = () => {
-  // fetch
   return (
-    <div className="container">
+    <div className={s.container}>
       <Filter />
       <ProductsList products={products} />
     </div>

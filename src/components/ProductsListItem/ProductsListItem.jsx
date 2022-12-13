@@ -1,28 +1,38 @@
 import PropTypes from "prop-types";
+import {
+  BtnBuy,
+  Currerncy,
+  DescrWrapper,
+  ImageWrapper,
+  Item,
+  NotProductDescr,
+  Price,
+  SaleMarker,
+} from "./ProductsListItem.styled";
 
-
-const ProductsListItem = (props) => {
+const ProductsListItem = ({ url, model, price, currency, isOdd, children }) => {
   return (
-    <li className="products__item">
-      <div className="products__image-wrapper">
-        <p className="products__sale">Акція</p>
-        <img className="products__image" src={props.url} alt={props.model} />
+    <Item isOdd={isOdd}>
+      {children}
+      <ImageWrapper>
+        <SaleMarker>Акція</SaleMarker>
+        <img src={url} alt={model} />
+      </ImageWrapper>
+      <div>
+        <DescrWrapper>
+          <h3 className="products__model">{model}</h3>
+          {price ? (
+            <>
+              <Price>{price}</Price>
+              <Currerncy>{currency}</Currerncy>
+            </>
+          ) : (
+            <NotProductDescr>Товар відсутній</NotProductDescr>
+          )}
+        </DescrWrapper>
+        <BtnBuy type="button">Купити</BtnBuy>
       </div>
-      <div className="products__descr">
-        <h3 className="products__model">{props.model}</h3>
-        {props.price ? (
-          <>
-            <span className="products__price">{props.price}</span>
-            <span className="products__currency">{props.currency}</span>
-          </>
-        ) : (
-          <span className="products__currency">Товар відсутній</span>
-        )}
-      </div>
-      <button className="products__btn-buy" type="button">
-        Купити
-      </button>
-    </li>
+    </Item>
   );
 };
 

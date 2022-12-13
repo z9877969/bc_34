@@ -1,66 +1,69 @@
-import "./Filter.css";
+import clsx from "clsx";
+import s from "./Filter.module.css";
 
 const Filter = () => {
+  const isRed = true; // false
+
   return (
-    <div className="filter">
-      <ul className="filter-list">
-        <li className="filter-item red">
+    <div className={s.container}>
+      <ul className={s.list}>
+        <li className={clsx(s.item, isRed && s.red)}>
           <input
-            className="filter-input"
+            className={s.input}
             name="filter"
             value="apple"
             type="checkbox"
             id="apple"
           />
-          <label className="filter-label" htmlFor="apple">
+          <label className={s.label} htmlFor="apple">
             Apple
           </label>
         </li>
-        <li className="filter-item">
+        <li className={s.item}>
           <input
-            className="filter-input"
+            className={s.input}
             name="filter"
             value="xiaomi"
             type="checkbox"
             id="xiaomi"
           />
-          <label className="filter-label" htmlFor="xiaomi">
+          <label className={s.label} htmlFor="xiaomi">
             Xiaomi
           </label>
         </li>
-        <li className="filter-item">
+        <li className={s.item}>
           <input
-            className="filter-input"
+            className={s.input}
             name="filter"
             value="samsung"
             type="checkbox"
             id="samsung"
           />
-          <label className="filter-label" htmlFor="samsung">
+          <label className={s.label} htmlFor="samsung">
             Samsung
           </label>
         </li>
-        <li className="filter-item">
+        <li className={s.item}>
           <input
-            className="filter-input"
+            className={s.input}
             name="filter"
             value="zte"
             type="checkbox"
             id="zte"
           />
-          <label className="filter-label" htmlFor="zte">
+          <label className={s.label} htmlFor="zte">
             Zte
           </label>
         </li>
-        <li className="filter-item">
+        <li className={s.item}>
           <input
-            className="filter-input"
+            className={s.input}
             name="filter"
             value="huawei"
             type="checkbox"
             id="huawei"
           />
-          <label className="filter-label" htmlFor="huawei">
+          <label className={s.label} htmlFor="huawei">
             Huawei
           </label>
         </li>
