@@ -2,12 +2,7 @@ import s from "./Header.module.css";
 import logo from "../../assets/img/logo.png";
 import sprite from "../../assets/icons/sprite.svg";
 
-// const headerStyle = {
-//   border: "1px solid red",
-//   backgroundColor: "green",
-// };
-
-const Header = () => {
+const Header = ({ handleOpenCart }) => {
   return (
     <header className={s.container}>
       <a href="http://">
@@ -18,7 +13,7 @@ const Header = () => {
         <span className={s.userEmail}>user@mail.com</span>
       </div>
       <div className={s.cartInfo}>
-        <button type="button" className={s.btnCart}>
+        <button type="button" className={s.btnCart} onClick={handleOpenCart}>
           <svg>
             <use href={sprite + "#icon-cart"}></use>
           </svg>

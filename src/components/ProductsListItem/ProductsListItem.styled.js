@@ -1,10 +1,6 @@
 import styled from "styled-components";
 
 export const Item = styled.li`
-  border: 3px solid
-    ${({ isOdd, theme }) => {
-      return isOdd ? theme.borderOdd : theme.borderEven;
-    }};
   display: flex;
   flex-direction: column;
   justify-content: space-between;

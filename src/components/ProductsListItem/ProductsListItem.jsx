@@ -10,10 +10,13 @@ import {
   SaleMarker,
 } from "./ProductsListItem.styled";
 
-const ProductsListItem = ({ url, model, price, currency, isOdd, children }) => {
+const ProductsListItem = ({ url, model, price, currency, id, addToCart }) => {
+  const handleBtnClick = (e) => {
+    addToCart({ url, model, price, currency, id });
+  };
+
   return (
-    <Item isOdd={isOdd}>
-      {children}
+    <Item>
       <ImageWrapper>
         <SaleMarker>Акція</SaleMarker>
         <img src={url} alt={model} />
@@ -30,7 +33,9 @@ const ProductsListItem = ({ url, model, price, currency, isOdd, children }) => {
             <NotProductDescr>Товар відсутній</NotProductDescr>
           )}
         </DescrWrapper>
-        <BtnBuy type="button">Купити</BtnBuy>
+        <BtnBuy type="button" onClick={handleBtnClick}>
+          Купити
+        </BtnBuy>
       </div>
     </Item>
   );
