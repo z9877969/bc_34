@@ -27,10 +27,6 @@
   align-items: center;
 }
 
-.red {
-  background-color: red;
-}
-
 .visually-hidden {
   position: absolute;
   width: 1px;

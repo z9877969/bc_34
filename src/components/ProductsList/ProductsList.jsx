@@ -7,16 +7,7 @@ const ProductsList = (props) => {
   return (
     <List>
       {products.map((el, idx) => (
-        <ProductsListItem
-          key={el.id}
-          {...el}
-          // url={el.url}
-          // model={el.model}
-          // price={el.price}
-          // currency={el.currency}
-          // id={el.id}
-          addToCart={addToCart}
-        />
+        <ProductsListItem key={el.id} {...el} addToCart={addToCart} />
       ))}
     </List>
   );
@@ -24,6 +15,7 @@ const ProductsList = (props) => {
 
 ProductsList.propTypes = {
   products: PropTypes.array.isRequired,
+  addToCart: PropTypes.func.isRequired,
 };
 
 export default ProductsList;

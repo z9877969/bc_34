@@ -46,6 +46,8 @@ ProductsListItem.propTypes = {
   model: PropTypes.string.isRequired,
   price: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   currency: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  addToCart: PropTypes.func.isRequired,
 };
 
 export default ProductsListItem;

@@ -1,19 +1,18 @@
-import clsx from "clsx";
 import s from "./Filter.module.css";
 
-const Filter = () => {
-  const isRed = true; // false
-
+const Filter = ({ productsFilter, handleFilterChange }) => {
   return (
     <div className={s.container}>
       <ul className={s.list}>
-        <li className={clsx(s.item, isRed && s.red)}>
+        <li className={s.item}>
           <input
             className={s.input}
             name="filter"
             value="apple"
             type="checkbox"
             id="apple"
+            checked={productsFilter.includes("apple")}
+            onChange={handleFilterChange}
           />
           <label className={s.label} htmlFor="apple">
             Apple
@@ -26,6 +25,8 @@ const Filter = () => {
             value="xiaomi"
             type="checkbox"
             id="xiaomi"
+            checked={productsFilter.includes("xiaomi")}
+            onChange={handleFilterChange}
           />
           <label className={s.label} htmlFor="xiaomi">
             Xiaomi
@@ -38,6 +39,8 @@ const Filter = () => {
             value="samsung"
             type="checkbox"
             id="samsung"
+            checked={productsFilter.includes("samsung")}
+            onChange={handleFilterChange}
           />
           <label className={s.label} htmlFor="samsung">
             Samsung
@@ -50,6 +53,8 @@ const Filter = () => {
             value="zte"
             type="checkbox"
             id="zte"
+            checked={productsFilter.includes("zte")}
+            onChange={handleFilterChange}
           />
           <label className={s.label} htmlFor="zte">
             Zte
@@ -62,6 +67,8 @@ const Filter = () => {
             value="huawei"
             type="checkbox"
             id="huawei"
+            checked={productsFilter.includes("huawei")}
+            onChange={handleFilterChange}
           />
           <label className={s.label} htmlFor="huawei">
             Huawei

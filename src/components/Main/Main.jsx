@@ -1,25 +1,13 @@
-import Filter from "../Filter/Filter";
-import ProductsList from "../ProductsList/ProductsList";
-import products from "../../data/products.json";
-import s from "./Main.module.scss";
-import { Component } from "react";
+import ShopPage from "../ShopPage/ShopPage";
+import TodoPage from "../TodoPage/TodoPage";
 
-class Main extends Component {
-  state = {
-    products: products,
-  };
-
-  render() {
-    const { addToCart } = this.props;
-    const { products } = this.state;
-
-    return (
-      <main className={s.container}>
-        <Filter />
-        <ProductsList products={products} addToCart={addToCart} />
-      </main>
-    );
-  }
-}
+const Main = ({ addToCart, activePage }) => {
+  return (
+    <main>
+      {activePage === "shop" && <ShopPage addToCart={addToCart} />}
+      {activePage === "todo" && <TodoPage />}
+    </main>
+  );
+};
 
 export default Main;
