@@ -1,172 +1,144 @@
 import { Component } from "react";
+import { Formik, Field, Form } from "formik";
 import { nanoid } from "nanoid";
 import s from "./TodoForm.module.scss";
+import * as yup from "yup";
+
+let schema = yup.object().shape({
+  date: yup.string().required("Date is required"),
+  title: yup
+    .string()
+    .min(2, "Must min 2")
+    .max(25, "Must max 25")
+    .required("Title is required"),
+  descr: yup.mixed().test({
+    name: "description",
+    // exclusive: true,
+    params: { a: "test", b: "qwe" },
+    message: "${path} is not a phone",
+    test: (value) => {
+      return /\w+[^\s]\w+@\w+\.\w{1,5}/.test(
+        value
+      );
+    },
+  }),
+  priority: yup.string().required("Priority is required"),
+});
 
 class ToDoForm extends Component {
-  state = {
-    date: "",
+  initialState = {
+    date: "2022-12-16",
     title: "",
     descr: "",
     priority: "",
-    // color: [],
-  };
-
-  handleChange = (e) => {
-    const { name, value, checked } = e.target;
-
-    if (name === "color") {
-      if (checked) {
-        this.setState((prev) => ({
-          [name]: [...prev[name], value],
-        }));
-      } else {
-        this.setState((prev) => ({
-          [name]: prev[name].filter((el) => el !== value),
-        }));
-      }
-      return;
-    }
-
-    this.setState({ [name]: value });
-  };
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const item = {
-      ...this.state,
-      id: nanoid(),
-      isDone: false,
-    };
-    this.props.addTodo(item);
   };
 
   render() {
-    // console.log("this.state.title :>> ", this.state.title);
-    const { date, title, descr, priority, color } = this.state;
     return (
-      <form className={s.form} onSubmit={this.handleSubmit}>
-        <label className={s.label}>
-          <span> Date </span>
-          <input
-            className={s.input}
-            name="date"
-            type="date"
-            value={date}
-            onChange={this.handleChange}
-          />
-        </label>
-        <label className={s.label}>
-          <span> Title </span>
-          <input
-            className={s.input}
-            type="text"
-            name="title"
-            value={title}
-            onChange={this.handleChange}
-          />
-        </label>
-        <label className={s.label}>
-          <span> Description </span>
-          <input
-            className={s.input}
-            type="text"
-            name="descr"
-            value={descr}
-            onChange={this.handleChange}
-          />
-        </label>
-
-        <div className={s.labelWrapper}>
-          <div className={s.radioWrapper}>
-            <input
-              id="formRadioLow"
-              className={s.input}
-              type="radio"
-              name="priority"
-              checked={"low" === priority}
-              value="low"
-              onChange={this.handleChange}
-            />
-            <label className={`${s.label} ${s.radio}`} htmlFor="formRadioLow">
-              Low
+      <Formik
+        initialValues={this.initialState}
+        validationSchema={schema}
+        onSubmit={(values, { resetForm }) => {
+          const item = {
+            ...values,
+            id: nanoid(),
+            isDone: false,
+          };
+          this.props.addTodo(item);
+          // fetch(values)
+          resetForm();
+        }}
+      >
+        {({ errors, touched, isValidating }) => (
+          <Form className={s.form}>
+            {/* {console.log(errors)}
+            {console.log(touched)}
+            {console.log("isValidating :>> ", isValidating)} */}
+            <label className={s.label}>
+              <span> Date </span>
+              <Field className={s.input} name="date" type="date" />
             </label>
-          </div>
-          <div className={s.radioWrapper}>
-            <input
-              id="formRadioMedium"
-              className={s.input}
-              type="radio"
-              name="priority"
-              checked={"medium" === priority}
-              value="medium"
-              onChange={this.handleChange}
-            />
-            <label
-              className={`${s.label} ${s.radio}`}
-              htmlFor="formRadioMedium"
-            >
-              Medium
+            <label className={s.label}>
+              <span> Title </span>
+              <Field className={s.input} name="title" type="text" />
+              {errors.title && touched.title && <p>{errors.title}</p>}
             </label>
-          </div>
-          <div className={s.radioWrapper}>
-            <input
-              id="formRadioHigh"
-              className={s.input}
-              type="radio"
-              name="priority"
-              checked={"high" === priority}
-              value="high"
-              onChange={this.handleChange}
-            />
-            <label className={`${s.label} ${s.radio}`} htmlFor="formRadioHigh">
-              High
+            <label className={s.label}>
+              <span> Description </span>
+              <Field className={s.input} name="descr" />
+              {errors.descr && touched.descr && <p>{errors.descr}</p>}
             </label>
-          </div>
-        </div>
-        {/* <div>
-          <label>
-            red
-            <input
-              type="checkbox"
-              name="color"
-              value="red"
-              checked={color.includes("red")}
-              onChange={this.handleChange}
-            />
-          </label>
-
-          <label>
-            yellow
-            <input
-              type="checkbox"
-              name="color"
-              value="yellow"
-              checked={color.includes("yellow")}
-              onChange={this.handleChange}
-            />
-          </label>
-
-          <label>
-            green
-            <input
-              type="checkbox"
-              name="color"
-              value="green"
-              checked={color.includes("green")}
-              onChange={this.handleChange}
-            />
-          </label>
-        </div> */}
-        <button
-          className={s.submit}
-          type="submit"
-          // style={{ backgroundColor: this.state.title.length > 6 ? "green" : "red" }}
-        >
-          Ok
-        </button>
-      </form>
+            <div className={s.labelWrapper}>
+              <div className={s.radioWrapper}>
+                <Field
+                  className={s.input}
+                  id="formRadioLow"
+                  type="radio"
+                  name="priority"
+                  value="low"
+                />
+                <label
+                  className={`${s.label} ${s.radio}`}
+                  htmlFor="formRadioLow"
+                >
+                  Low
+                </label>
+              </div>
+              <div className={s.radioWrapper}>
+                <Field
+                  className={s.input}
+                  id="formRadioMedium"
+                  type="radio"
+                  name="priority"
+                  value="medium"
+                />
+                <label
+                  className={`${s.label} ${s.radio}`}
+                  htmlFor="formRadioMedium"
+                >
+                  Medium
+                </label>
+              </div>
+              <div className={s.radioWrapper}>
+                <Field
+                  className={s.input}
+                  id="formRadioHigh"
+                  type="radio"
+                  name="priority"
+                  value="high"
+                />
+                <label
+                  className={`${s.label} ${s.radio}`}
+                  htmlFor="formRadioHigh"
+                >
+                  High
+                </label>
+              </div>
+              {errors.priority && touched.priority && <p>{errors.priority}</p>}
+            </div>
+            <button className={s.submit} type="submit">
+              Ok
+            </button>
+          </Form>
+        )}
+      </Formik>
     );
   }
 }
 
 export default ToDoForm;
+// /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/
+
+// const F = ({type = "text"}) => {
+//   return <input type={type} />
+// }
+
+// const FormT = () => {
+
+//   const handleSubmit = e => {
+//     e.preventDefault();
+//     cbOnSubmit(state, methods)
+//   }
+
+//   return <form onSubmit={handleSubmit}></form>
+// }

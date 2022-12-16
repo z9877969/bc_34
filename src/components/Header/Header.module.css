@@ -1,16 +1,14 @@
+@value colors: "../../assets/styles/variables.css";
+@value blue, red, green from colors;
+
 .container {
-  background-color: rgba(4, 57, 114, 0.8);
+  /* background-color: rgba(4, 57, 114, 0.8); */
+  background-color: red;
   padding: 15px 45px;
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
-
-/* .logo {
-  width: 60px;
-  height: 60px;
-  background-color: #fff;
-} */
 
 .logo { 
   display: flex;
