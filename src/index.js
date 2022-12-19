@@ -6,9 +6,9 @@ import "modern-normalize/modern-normalize.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <GlobalStylesWrapper>
       <App />
     </GlobalStylesWrapper>
-  </React.StrictMode>
+  // </React.StrictMode>
 );

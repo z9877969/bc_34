@@ -1,144 +1,120 @@
 import { Component } from "react";
-import { Formik, Field, Form } from "formik";
 import { nanoid } from "nanoid";
 import s from "./TodoForm.module.scss";
-import * as yup from "yup";
-
-let schema = yup.object().shape({
-  date: yup.string().required("Date is required"),
-  title: yup
-    .string()
-    .min(2, "Must min 2")
-    .max(25, "Must max 25")
-    .required("Title is required"),
-  descr: yup.mixed().test({
-    name: "description",
-    // exclusive: true,
-    params: { a: "test", b: "qwe" },
-    message: "${path} is not a phone",
-    test: (value) => {
-      return /\w+[^\s]\w+@\w+\.\w{1,5}/.test(
-        value
-      );
-    },
-  }),
-  priority: yup.string().required("Priority is required"),
-});
 
 class ToDoForm extends Component {
-  initialState = {
+  state = {
     date: "2022-12-16",
     title: "",
     descr: "",
     priority: "",
   };
 
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+  };
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const item = {
+      ...this.state,
+      id: nanoid(),
+      isDone: false,
+    };
+    this.props.addTodo(item);
+  };
+
   render() {
+    const { date, title, descr, priority } = this.state;
     return (
-      <Formik
-        initialValues={this.initialState}
-        validationSchema={schema}
-        onSubmit={(values, { resetForm }) => {
-          const item = {
-            ...values,
-            id: nanoid(),
-            isDone: false,
-          };
-          this.props.addTodo(item);
-          // fetch(values)
-          resetForm();
-        }}
-      >
-        {({ errors, touched, isValidating }) => (
-          <Form className={s.form}>
-            {/* {console.log(errors)}
-            {console.log(touched)}
-            {console.log("isValidating :>> ", isValidating)} */}
-            <label className={s.label}>
-              <span> Date </span>
-              <Field className={s.input} name="date" type="date" />
+      <form className={s.form} onSubmit={this.handleSubmit}>
+        <label className={s.label}>
+          <span> Date </span>
+          <input
+            className={s.input}
+            name="date"
+            type="date"
+            value={date}
+            onChange={this.handleChange}
+          />
+        </label>
+        <label className={s.label}>
+          <span> Title </span>
+          <input
+            className={s.input}
+            name="title"
+            type="text"
+            value={title}
+            onChange={this.handleChange}
+          />
+        </label>
+        <label className={s.label}>
+          <span> Description </span>
+          <input
+            className={s.input}
+            name="descr"
+            type="text"
+            value={descr}
+            onChange={this.handleChange}
+          />
+        </label>
+        <div className={s.labelWrapper}>
+          <div className={s.radioWrapper}>
+            <input
+              className={s.input}
+              id="formRadioLow"
+              type="radio"
+              name="priority"
+              value="low"
+              onChange={this.handleChange}
+              checked={priority === "low"}
+            />
+            <label className={`${s.label} ${s.radio}`} htmlFor="formRadioLow">
+              Low
             </label>
-            <label className={s.label}>
-              <span> Title </span>
-              <Field className={s.input} name="title" type="text" />
-              {errors.title && touched.title && <p>{errors.title}</p>}
+          </div>
+          <div className={s.radioWrapper}>
+            <input
+              className={s.input}
+              id="formRadioMedium"
+              type="radio"
+              name="priority"
+              value="medium"
+              onChange={this.handleChange}
+              checked={priority === "medium"}
+            />
+            <label
+              className={`${s.label} ${s.radio}`}
+              htmlFor="formRadioMedium"
+            >
+              Medium
             </label>
-            <label className={s.label}>
-              <span> Description </span>
-              <Field className={s.input} name="descr" />
-              {errors.descr && touched.descr && <p>{errors.descr}</p>}
+          </div>
+          <div className={s.radioWrapper}>
+            <input
+              className={s.input}
+              id="formRadioHigh"
+              type="radio"
+              name="priority"
+              value="high"
+              onChange={this.handleChange}
+              checked={priority === "high"}
+            />
+            <label className={`${s.label} ${s.radio}`} htmlFor="formRadioHigh">
+              High
             </label>
-            <div className={s.labelWrapper}>
-              <div className={s.radioWrapper}>
-                <Field
-                  className={s.input}
-                  id="formRadioLow"
-                  type="radio"
-                  name="priority"
-                  value="low"
-                />
-                <label
-                  className={`${s.label} ${s.radio}`}
-                  htmlFor="formRadioLow"
-                >
-                  Low
-                </label>
-              </div>
-              <div className={s.radioWrapper}>
-                <Field
-                  className={s.input}
-                  id="formRadioMedium"
-                  type="radio"
-                  name="priority"
-                  value="medium"
-                />
-                <label
-                  className={`${s.label} ${s.radio}`}
-                  htmlFor="formRadioMedium"
-                >
-                  Medium
-                </label>
-              </div>
-              <div className={s.radioWrapper}>
-                <Field
-                  className={s.input}
-                  id="formRadioHigh"
-                  type="radio"
-                  name="priority"
-                  value="high"
-                />
-                <label
-                  className={`${s.label} ${s.radio}`}
-                  htmlFor="formRadioHigh"
-                >
-                  High
-                </label>
-              </div>
-              {errors.priority && touched.priority && <p>{errors.priority}</p>}
-            </div>
-            <button className={s.submit} type="submit">
-              Ok
-            </button>
-          </Form>
-        )}
-      </Formik>
+          </div>
+        </div>
+        <button className={s.submit} type="submit">
+          Ok
+        </button>
+      </form>
     );
   }
 }
 
 export default ToDoForm;
-// /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/
 
-// const F = ({type = "text"}) => {
-//   return <input type={type} />
-// }
+class Test {}
 
-// const FormT = () => {
-
-//   const handleSubmit = e => {
-//     e.preventDefault();
-//     cbOnSubmit(state, methods)
-//   }
-
-//   return <form onSubmit={handleSubmit}></form>
-// }
+const test = new Test(); // constructor()
