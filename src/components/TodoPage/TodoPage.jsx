@@ -7,17 +7,9 @@ import { PureComponent } from "react";
 class TodoPage extends PureComponent {
   state = {
     todo: [],
-    filter: "all", // low
-    error: null, // error -> null
+    filter: "all",
+    error: null,
   };
-
-  static getDerivedStateFromProps(newProps, state) {
-    if (newProps.isOpen) {
-      return { filter: "medium" };
-    }
-
-    return null;
-  }
 
   handleEscape = (e) => {
     if (e.code === "Escape") {
@@ -26,49 +18,15 @@ class TodoPage extends PureComponent {
   };
 
   componentDidMount() {
-    // console.log("CDM_TodoPage");
     const parsedTodo = JSON.parse(localStorage.getItem("todo")) ?? todo;
     this.setState({ todo: parsedTodo }); // render
   }
 
-  getSnapshotBeforeUpdate(prevProps, prevState) {
-    // console.log(prevState);
-    // console.log(this.state);
-    // console.log("START_snapshot");
-    if (prevState.todo !== this.state.todo) {
-      return "amazing snapshot" + document.body.clientHeight;
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log(snapshot);
-    // this.setState({}) -> render -> componentDidUpdate -> this.setState({}) -> render -> cdu ->
+  componentDidUpdate(prevProps, prevState) {
     if (this.state.todo !== prevState.todo) {
       localStorage.setItem("todo", JSON.stringify(this.state.todo));
     }
-    if (this.state.error !== prevState.error && this.state.error) {
-      // error && error
-      console.log("Error - ", this.state.error.message);
-      this.setState({ error: null });
-    }
   }
-
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   console.log("ShCU");
-  //   // if (
-  //   //   nextProps.isOpen !== this.props.isOpen ||
-  //   //   nextState.todo !== this.state.todo ||
-  //   //   nextState.filter !== this.state.filter
-  //   // ) {
-  //   //   return true;
-  //   // }
-  //   // return false;
-  //   // if (this.state.error !== nextState.error && nextState.error === null) {
-  //   //   return false;
-  //   // }
-  //   // return true;
-  // }
 
   addTodo = (item) => {
     this.setState((prev) => {
@@ -104,10 +62,7 @@ class TodoPage extends PureComponent {
   };
 
   render() {
-    // this.clientHeight = document.body.clientHeight;
-    console.log("RENDER_TodoPage");
     const { filter, count } = this.state;
-    // console.log(this.props, "\n", this.state);
 
     const todo = this.filterTodoList();
 
