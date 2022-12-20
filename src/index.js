@@ -1,14 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
-import GlobalStylesWrapper from "./components/GlobalStylesWrapper/GlobalStylesWrapper";
+import App from "./components/App";
 import "modern-normalize/modern-normalize.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
-    <GlobalStylesWrapper>
-      <App />
-    </GlobalStylesWrapper>
+  <App />
   // </React.StrictMode>
 );
