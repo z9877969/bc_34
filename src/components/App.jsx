@@ -16,7 +16,7 @@ class App extends Component {
         <SearchBar changeSearch={this.changeSearch} />
 
         <NewsPage search={this.state.search} />
-        {/* <Modal /> */}
+        
       </div>
     );
   }

@@ -1,6 +1,7 @@
 import { Component } from "react";
 import Button from "../Button/Button";
 import NewsList from "../NewsList/NewsList";
+import Modal from "../Modal/Modal";
 // import news from "../../data/news.json";
 import { getSearchNews, getTopNews } from "../../utils/searchApi";
 
@@ -10,7 +11,9 @@ class NewsPage extends Component {
     page: 1,
     search: "",
     isLoading: false,
-    error: null,
+    error: null, // -> {}
+    // isModalOpen: false,
+    modalData: null, // {} -> true
   };
 
   // async componentDidUpdate(prevProps, prevState) {
@@ -72,18 +75,27 @@ class NewsPage extends Component {
     this.setState((prev) => ({ page: prev.page + 1 }));
   };
 
+  setModalData = (data = null) => {
+    this.setState({ modalData: data });
+  };
+
   render() {
     // console.log(this.props);
-    const { news, isLoading, error } = this.state;
+    const { news, isLoading, error, modalData } = this.state;
     if (error) {
       return <h1>{error.message}</h1>;
     }
     return (
       <>
-        {news.length > 0 && <NewsList news={news} />}
+        {news.length > 0 && (
+          <NewsList news={news} setModalData={this.setModalData} />
+        )}
         {isLoading && <h1>Loading...</h1>}
 
         {news.length > 0 && <Button cbOnClick={this.changePage} />}
+        {modalData && (
+          <Modal modalData={modalData} setModalData={this.setModalData} />
+        )}
       </>
     );
   }
