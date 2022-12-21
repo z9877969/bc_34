@@ -1,25 +1,16 @@
-import { Component } from "react";
+import { useState } from "react";
 import Header from "./components/Header/Header";
 import Main from "./components/Main/Main";
 
-class App extends Component {
-  state = {
-    activePage: "todo",
-  };
+const App = () => {
+  const [activePage, setActivePage] = useState("todo");
 
-  handleSetActivePage = (activePage) => {
-    this.setState({ activePage });
-  };
-
-  render() {
-    const { activePage } = this.state;
-    return (
-      <>
-        <Header handleSetActivePage={this.handleSetActivePage} />
-        <Main activePage={activePage} addToCart={this.addToCart} />
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <Header handleSetActivePage={setActivePage} />
+      <Main activePage={activePage} />
+    </>
+  );
+};
 
 export default App;

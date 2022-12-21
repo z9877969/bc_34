@@ -1,120 +1,141 @@
-import { Component } from "react";
+import { useState } from "react";
 import { nanoid } from "nanoid";
 import s from "./TodoForm.module.scss";
 
-class ToDoForm extends Component {
-  state = {
-    date: "2022-12-16",
-    title: "",
-    descr: "",
-    priority: "",
+const initialFormState = {
+  date: "2022-12-21",
+  title: "",
+  descr: "",
+  priority: "",
+};
+
+const TodoForm = ({ addTodo }) => {
+  // v.1
+  // const [date, setDate] = useState("2022-12-21");
+  // const [title, setTitle] = useState("");
+  // const [descr, setDescr] = useState("");
+  // const [priority, setPriority] = useState("");
+
+  // const handleChange = (e) => {
+  //   console.log(e);
+  //   const { name, value } = e.target;
+  //   switch (name) {
+  //     case "date":
+  //       setDate(value);
+  //       return;
+  //     case "title":
+  //       setTitle(value);
+  //       return;
+  //     case "descr":
+  //       setDescr(value);
+  //       return;
+  //     case "priority":
+  //       setPriority(value);
+  //       return;
+  //     default:
+  //       return;
+  //   }
+  // };
+
+  // v.2
+  const [form, setForm] = useState(initialFormState);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  handleChange = (e) => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-  };
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const item = {
-      ...this.state,
+      ...form,
       id: nanoid(),
       isDone: false,
     };
-    this.props.addTodo(item);
+    addTodo(item);
   };
 
-  render() {
-    const { date, title, descr, priority } = this.state;
-    return (
-      <form className={s.form} onSubmit={this.handleSubmit}>
-        <label className={s.label}>
-          <span> Date </span>
+  return (
+    <form className={s.form} onSubmit={handleSubmit}>
+      <label className={s.label}>
+        <span> Date </span>
+        <input
+          className={s.input}
+          name="date"
+          type="date"
+          value={form.date}
+          onChange={handleChange}
+        />
+      </label>
+      <label className={s.label}>
+        <span> Title </span>
+        <input
+          className={s.input}
+          name="title"
+          type="text"
+          value={form.title}
+          onChange={handleChange}
+        />
+      </label>
+      <label className={s.label}>
+        <span> Description </span>
+        <input
+          className={s.input}
+          name="descr"
+          type="text"
+          value={form.descr}
+          onChange={handleChange}
+        />
+      </label>
+      <div className={s.labelWrapper}>
+        <div className={s.radioWrapper}>
           <input
             className={s.input}
-            name="date"
-            type="date"
-            value={date}
-            onChange={this.handleChange}
+            id="formRadioLow"
+            type="radio"
+            name="priority"
+            value="low"
+            onChange={handleChange}
+            checked={form.priority === "low"}
           />
-        </label>
-        <label className={s.label}>
-          <span> Title </span>
-          <input
-            className={s.input}
-            name="title"
-            type="text"
-            value={title}
-            onChange={this.handleChange}
-          />
-        </label>
-        <label className={s.label}>
-          <span> Description </span>
-          <input
-            className={s.input}
-            name="descr"
-            type="text"
-            value={descr}
-            onChange={this.handleChange}
-          />
-        </label>
-        <div className={s.labelWrapper}>
-          <div className={s.radioWrapper}>
-            <input
-              className={s.input}
-              id="formRadioLow"
-              type="radio"
-              name="priority"
-              value="low"
-              onChange={this.handleChange}
-              checked={priority === "low"}
-            />
-            <label className={`${s.label} ${s.radio}`} htmlFor="formRadioLow">
-              Low
-            </label>
-          </div>
-          <div className={s.radioWrapper}>
-            <input
-              className={s.input}
-              id="formRadioMedium"
-              type="radio"
-              name="priority"
-              value="medium"
-              onChange={this.handleChange}
-              checked={priority === "medium"}
-            />
-            <label
-              className={`${s.label} ${s.radio}`}
-              htmlFor="formRadioMedium"
-            >
-              Medium
-            </label>
-          </div>
-          <div className={s.radioWrapper}>
-            <input
-              className={s.input}
-              id="formRadioHigh"
-              type="radio"
-              name="priority"
-              value="high"
-              onChange={this.handleChange}
-              checked={priority === "high"}
-            />
-            <label className={`${s.label} ${s.radio}`} htmlFor="formRadioHigh">
-              High
-            </label>
-          </div>
+          <label className={`${s.label} ${s.radio}`} htmlFor="formRadioLow">
+            Low
+          </label>
         </div>
-        <button className={s.submit} type="submit">
-          Ok
-        </button>
-      </form>
-    );
-  }
-}
+        <div className={s.radioWrapper}>
+          <input
+            className={s.input}
+            id="formRadioMedium"
+            type="radio"
+            name="priority"
+            value="medium"
+            onChange={handleChange}
+            checked={form.priority === "medium"}
+          />
+          <label className={`${s.label} ${s.radio}`} htmlFor="formRadioMedium">
+            Medium
+          </label>
+        </div>
+        <div className={s.radioWrapper}>
+          <input
+            className={s.input}
+            id="formRadioHigh"
+            type="radio"
+            name="priority"
+            value="high"
+            onChange={handleChange}
+            checked={form.priority === "high"}
+          />
+          <label className={`${s.label} ${s.radio}`} htmlFor="formRadioHigh">
+            High
+          </label>
+        </div>
+      </div>
+      <button className={s.submit} type="submit">
+        Ok
+      </button>
+    </form>
+  );
+};
 
-export default ToDoForm;
-
-class Test {}
-
-const test = new Test(); // constructor()
+export default TodoForm;

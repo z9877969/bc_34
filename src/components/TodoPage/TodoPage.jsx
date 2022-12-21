@@ -1,94 +1,88 @@
+import { useEffect, useState } from "react";
+import Container from "../Container/Container";
 import ToDoForm from "../TodoForm/TodoForm";
 import ToDoList from "../TodoList/TodoList";
-import { todo } from "../../data/todo";
-import Container from "../Container/Container";
-import { PureComponent } from "react";
+import { todo as todoItems } from "../../data/todo";
 
-class TodoPage extends PureComponent {
-  state = {
-    todo: [],
-    filter: "all",
-    error: null,
+let renderCount = 0;
+
+// const hartCalc = () => {
+//   let count = 0;
+//   for (let i = 0; i <= 1e9; i += 1) {
+//     count = i;
+//   }
+//   return count;
+// };
+
+const TodoPage = () => {
+  const [filter, setFilter] = useState("all"); // not 1st render
+  const [todo, setTodo] = useState(
+    () => JSON.parse(localStorage.getItem("todo")) ?? todoItems
+  );
+  // const [test, setTest] = useState(() => hartCalc()); // undefined
+
+  const addTodo = (item) => {
+    setTodo((prevTodo) => [...prevTodo, item]);
   };
 
-  handleEscape = (e) => {
-    if (e.code === "Escape") {
-      console.log("Escape");
-    }
+  const removeTodo = (id) => {
+    setTodo((prevTodo) => prevTodo.filter((el) => el.id !== id));
   };
 
-  componentDidMount() {
-    const parsedTodo = JSON.parse(localStorage.getItem("todo")) ?? todo;
-    this.setState({ todo: parsedTodo }); // render
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.todo !== prevState.todo) {
-      localStorage.setItem("todo", JSON.stringify(this.state.todo));
-    }
-  }
-
-  addTodo = (item) => {
-    this.setState((prev) => {
-      return {
-        todo: [...prev.todo, item],
-      };
-    });
+  const updateTodoStatus = (id) => {
+    setTodo((prev) =>
+      prev.map((el) => (el.id === id ? { ...el, isDone: !el.isDone } : el))
+    );
   };
 
-  removeTodo = (id) => {
-    this.setState((prev) => ({
-      todo: prev.todo.filter((el) => el.id !== id),
-    }));
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
   };
 
-  updateTodoStatus = (id) => {
-    console.log(id);
-    this.setState((prev) => ({
-      todo: prev.todo.map((el) =>
-        el.id === id ? { ...el, isDone: !el.isDone } : el
-      ),
-    }));
-  };
-
-  handleFilterChange = (e) => {
-    this.setState({ filter: e.target.value });
-  };
-
-  filterTodoList = () => {
-    const { filter, todo } = this.state;
+  const getFilteredTodo = () => {
     if (filter === "all") return todo;
     return todo.filter((el) => el.priority === filter);
   };
 
-  render() {
-    const { filter, count } = this.state;
+  const filteredTodo = getFilteredTodo();
 
-    const todo = this.filterTodoList();
+  useEffect(() => {
+    console.log("useEffect_Todo");
+    localStorage.setItem("todo", JSON.stringify(todo));
+  }, [todo]); // render-1 -> uE | render-2 -> uE | render-3 -> uE
 
-    return (
-      <Container>
-        <p>{count}</p>
-        <ToDoForm addTodo={this.addTodo} />
-        <select
-          style={{ display: "block", margin: "10px auto", padding: "10px" }}
-          name="priority"
-          value={filter}
-          onChange={this.handleFilterChange}
-        >
-          <option value="all">All</option>
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
-        </select>
-        <ToDoList
-          todo={todo}
-          removeTodo={this.removeTodo}
-          updateTodoStatus={this.updateTodoStatus}
-        />
-      </Container>
-    );
-  }
-}
+  useEffect(() => {
+    console.log("useEffect_Filter");
+  }, [filter]);
+
+  useEffect(() => {
+    console.log("useEffect as cdm");
+  }, []);
+
+  console.log("RENDER_TODOPAGE ", (renderCount += 1));
+
+  return (
+    <Container>
+      <h1>Hard calc value - {test}</h1>
+      <ToDoForm addTodo={addTodo} />
+      <select
+        style={{ display: "block", margin: "10px auto", padding: "10px" }}
+        name="priority"
+        value={filter}
+        onChange={handleFilterChange}
+      >
+        <option value="all">All</option>
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+      <ToDoList
+        todo={filteredTodo}
+        removeTodo={removeTodo}
+        updateTodoStatus={updateTodoStatus}
+      />
+    </Container>
+  );
+};
 
 export default TodoPage;

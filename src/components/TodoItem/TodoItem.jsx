@@ -3,8 +3,6 @@ import clsx from "clsx";
 import s from "./TodoItem.module.scss";
 import sprite from "../../assets/icons/sprite.svg";
 
-// = () =>
-
 class TodoItem extends Component {
   state = {
     count: 0,
@@ -15,12 +13,10 @@ class TodoItem extends Component {
   componentDidMount() {
     this.intrevalId = setInterval(() => {
       this.setState((prev) => ({ count: prev.count + 1 }));
-      console.log("count");
     }, 1000);
   }
 
   componentWillUnmount() {
-    console.log("CWU_TodoItem");
     clearInterval(this.intrevalId);
   }
 
@@ -51,6 +47,7 @@ class TodoItem extends Component {
             type="checkbox"
             name="status"
             onChange={() => updateTodoStatus(id)}
+            checked={isDone}
           />
           Done
         </label>
