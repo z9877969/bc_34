@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { nanoid } from "nanoid";
 import s from "./TodoForm.module.scss";
 
@@ -10,34 +10,7 @@ const initialFormState = {
 };
 
 const TodoForm = ({ addTodo }) => {
-  // v.1
-  // const [date, setDate] = useState("2022-12-21");
-  // const [title, setTitle] = useState("");
-  // const [descr, setDescr] = useState("");
-  // const [priority, setPriority] = useState("");
-
-  // const handleChange = (e) => {
-  //   console.log(e);
-  //   const { name, value } = e.target;
-  //   switch (name) {
-  //     case "date":
-  //       setDate(value);
-  //       return;
-  //     case "title":
-  //       setTitle(value);
-  //       return;
-  //     case "descr":
-  //       setDescr(value);
-  //       return;
-  //     case "priority":
-  //       setPriority(value);
-  //       return;
-  //     default:
-  //       return;
-  //   }
-  // };
-
-  // v.2
+  console.log("Form");
   const [form, setForm] = useState(initialFormState);
 
   const handleChange = (e) => {
@@ -138,4 +111,4 @@ const TodoForm = ({ addTodo }) => {
   );
 };
 
-export default TodoForm;
+export default memo(TodoForm);
