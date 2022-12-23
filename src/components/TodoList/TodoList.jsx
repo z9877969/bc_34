@@ -1,25 +1,24 @@
-import { useState, memo, useContext } from "react";
+import { memo, useContext } from "react";
 import PropTypes from "prop-types";
 import s from "./TodoList.module.scss";
 import TodoItem from "../TodoItem/TodoItem";
-import { TodoContext } from "../TodoPage/TodoPage";
+import { FilterContext } from "../../context/FilterContext";
 
 const TodoList = ({ todo, removeTodo, todoItemRef, updateTodoStatus }) => {
-  const [isChangeColor, setIsChangeColor] = useState(false);
+  const { filter } = useContext(FilterContext);
 
-  const value = useContext(TodoContext);
-
-  console.log("TodoList ", value);
+  const todoList = () => {
+    if (filter === "all") return todo;
+    return todo.filter((el) => el.priority === filter); // [1,2,3] -> [1,2,3]
+  };
 
   return (
     <>
       <ul className={s.container}>
-        {todo.map((el, idx, arr) => (
+        {todoList().map((el) => (
           <TodoItem
-            todoItemRef={arr.length - 12 === idx ? todoItemRef : null}
             key={el.id}
             {...el}
-            isChangeColor={isChangeColor}
             removeTodo={removeTodo}
             updateTodoStatus={updateTodoStatus}
           />
@@ -35,4 +34,4 @@ TodoList.propTypes = {
   updateTodoStatus: PropTypes.func.isRequired,
 };
 
-export default memo(TodoList); // () => {<TodoList />}
+export default memo(TodoList);

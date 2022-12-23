@@ -1,8 +1,9 @@
-import { Component, useEffect, useState, useRef } from "react";
+import { Component, useEffect, useState, useRef, useContext } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import s from "./TodoItem.module.scss";
 import sprite from "../../assets/icons/sprite.svg";
+import { ModalContext } from "../../context/ModalContext";
 
 const TodoItem = ({
   id,
@@ -16,6 +17,8 @@ const TodoItem = ({
   updateTodoStatus,
   removeTodo,
 }) => {
+  const setModalComponent = useContext(ModalContext);
+
   const [count, setCount] = useState(0); // useState() -> [data, setData]
 
   const intervalIdRef = useRef(null); // outside ref
@@ -29,19 +32,6 @@ const TodoItem = ({
   const stopTimer = () => {
     clearInterval(intervalIdRef.current);
   };
-
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     console.log("TIMER");
-  //     setCount((prevCount) => {
-  //       return prevCount + 1;
-  //     });
-  //   }, 1000);
-
-  //   return () => {
-  //     clearInterval(intervalId);
-  //   };
-  // }, []);
 
   return (
     <li
@@ -77,45 +67,17 @@ const TodoItem = ({
           <use href={sprite + "#icon-trash"}></use>
         </svg>
       </button>
+      <button
+        className={s.todoBtn}
+        onClick={() => setModalComponent(<h1>Edit form -{id}</h1>)}
+      >
+        <svg className={s.icon}>
+          <use href={sprite + "#icon-edit-pencil"}></use>
+        </svg>
+      </button>
     </li>
   );
 };
-
-// class TodoItem extends Component {
-//   state = {
-//     count: 0,
-//   };
-
-//   intrevalId = null;
-
-//   componentDidMount() {
-//     this.intrevalId = setInterval(() => {
-//       this.setState((prev) => ({ count: prev.count + 1 }));
-//     }, 1000);
-//   }
-
-//   componentWillUnmount() {
-//     clearInterval(this.intrevalId);
-//   }
-
-//   render() {
-//     const {
-//
-//
-//
-//
-//
-//
-//
-//
-//     } = this.props;
-//     const { count } = this.state;
-
-//     return (
-
-//     );
-//   }
-// }
 
 TodoItem.propTypes = {
   id: PropTypes.string.isRequired,

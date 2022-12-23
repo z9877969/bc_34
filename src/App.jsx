@@ -9,6 +9,7 @@ const App = () => {
     <>
       <Header handleSetActivePage={setActivePage} />
       <Main activePage={activePage} />
+      
     </>
   );
 };

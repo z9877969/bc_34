@@ -1,6 +1,8 @@
 import { memo, useState } from "react";
 import { nanoid } from "nanoid";
 import s from "./TodoForm.module.scss";
+// import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { useForm } from "../../hooks/useForm";
 
 const initialFormState = {
   date: "2022-12-21",
@@ -10,23 +12,28 @@ const initialFormState = {
 };
 
 const TodoForm = ({ addTodo }) => {
-  console.log("Form");
-  const [form, setForm] = useState(initialFormState);
+  // with save to LocalStorage
+  // const [form, setForm] = useLocalStorage("todo-form", initialFormState);
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setForm((prev) => ({ ...prev, [name]: value }));
+  // };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const item = {
+  //     ...form,
+  //     id: nanoid(),
+  //     isDone: false,
+  //   };
+  //   addTodo(item);
+  // };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const item = {
-      ...form,
-      id: nanoid(),
-      isDone: false,
-    };
-    addTodo(item);
-  };
+  const { form, handleChange, handleSubmit } = useForm({
+    initialValues: initialFormState,
+    onSubmit: (dataForm) =>
+      addTodo({ ...dataForm, id: nanoid(), isDone: false }),
+  });
 
   return (
     <form className={s.form} onSubmit={handleSubmit}>
@@ -111,4 +118,5 @@ const TodoForm = ({ addTodo }) => {
   );
 };
 
-export default memo(TodoForm);
+// export default memo(TodoForm);
+export default TodoForm;

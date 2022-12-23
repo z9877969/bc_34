@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { TodoContext } from "../../TodoPage/TodoPage";
+import { FilterContext } from "../../../context/FilterContext";
 
 const PriorityFilter = () => {
-  const { filter, setFilter } = useContext(TodoContext);
+  const { filter, setFilter } = useContext(FilterContext);
 
   return (
     <select

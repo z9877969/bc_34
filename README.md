@@ -17,3 +17,11 @@
 ### 4) TodoForm -> memo 
 ### 5) Todo -> useMemo/filteredList/ 
 ### 6) useCallback
+
+## QA
+### (https://usehooks.com/)[https://usehooks.com/]
+### 1) useLocalStorage, useForm
+### 2) memo with children
+### 3) modalContext
+### 4) errorIsLoadingContext
+### 5) todoContext
