@@ -1,17 +1,12 @@
 import { createPortal } from "react-dom";
 import s from "./Modal.module.scss";
 
-const modalRoot = document.querySelector("#modal");
+const modalContainer = document.getElementById("modal");
 
-const Modal = ({ children, closeModal }) => {
+const Modal = ({ children }) => {
   return createPortal(
-    <div
-      className={s.wrapper}
-      onClick={(e) => e.target === e.currentTarget && closeModal()}
-    >
-      {children}
-    </div>,
-    modalRoot
+    <div className={s.backdrop}>{children}</div>,
+    modalContainer
   );
 };
 

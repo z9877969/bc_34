@@ -1,38 +1,29 @@
-import { memo, useState } from "react";
-import { nanoid } from "nanoid";
+import { v4 as uuidv4 } from "uuid";
 import s from "./TodoForm.module.scss";
-// import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useForm } from "../../hooks/useForm";
 
-const initialFormState = {
-  date: "2022-12-21",
+
+
+export const priorityOptions = {
+  LOW: "low",
+  MEDIUM: "medium",
+  HIGH: "high",
+};
+
+const initialForm = {
+  date: "2022-12-26",
   title: "",
   descr: "",
   priority: "",
 };
 
 const TodoForm = ({ addTodo }) => {
-  // with save to LocalStorage
-  // const [form, setForm] = useLocalStorage("todo-form", initialFormState);
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setForm((prev) => ({ ...prev, [name]: value }));
-  // };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   const item = {
-  //     ...form,
-  //     id: nanoid(),
-  //     isDone: false,
-  //   };
-  //   addTodo(item);
-  // };
-
   const { form, handleChange, handleSubmit } = useForm({
-    initialValues: initialFormState,
-    onSubmit: (dataForm) =>
-      addTodo({ ...dataForm, id: nanoid(), isDone: false }),
+    initialValues: initialForm,
+    onSubmit: (values) => {
+      const data = { ...values, id: uuidv4(), isDoneStatus: false };
+      addTodo(data);
+    },
   });
 
   return (
@@ -41,8 +32,8 @@ const TodoForm = ({ addTodo }) => {
         <span> Date </span>
         <input
           className={s.input}
-          name="date"
           type="date"
+          name="date"
           value={form.date}
           onChange={handleChange}
         />
@@ -51,8 +42,8 @@ const TodoForm = ({ addTodo }) => {
         <span> Title </span>
         <input
           className={s.input}
-          name="title"
           type="text"
+          name="title"
           value={form.title}
           onChange={handleChange}
         />
@@ -61,22 +52,23 @@ const TodoForm = ({ addTodo }) => {
         <span> Description </span>
         <input
           className={s.input}
-          name="descr"
           type="text"
+          name="descr"
           value={form.descr}
           onChange={handleChange}
         />
       </label>
+
       <div className={s.labelWrapper}>
         <div className={s.radioWrapper}>
           <input
-            className={s.input}
             id="formRadioLow"
+            className={s.input}
             type="radio"
             name="priority"
-            value="low"
+            value={priorityOptions.LOW}
+            checked={priorityOptions.LOW === form.priority} // "low" === priority
             onChange={handleChange}
-            checked={form.priority === "low"}
           />
           <label className={`${s.label} ${s.radio}`} htmlFor="formRadioLow">
             Low
@@ -84,13 +76,13 @@ const TodoForm = ({ addTodo }) => {
         </div>
         <div className={s.radioWrapper}>
           <input
-            className={s.input}
             id="formRadioMedium"
+            className={s.input}
             type="radio"
             name="priority"
-            value="medium"
+            value={priorityOptions.MEDIUM}
+            checked={priorityOptions.MEDIUM === form.priority}
             onChange={handleChange}
-            checked={form.priority === "medium"}
           />
           <label className={`${s.label} ${s.radio}`} htmlFor="formRadioMedium">
             Medium
@@ -98,13 +90,13 @@ const TodoForm = ({ addTodo }) => {
         </div>
         <div className={s.radioWrapper}>
           <input
-            className={s.input}
             id="formRadioHigh"
+            className={s.input}
             type="radio"
             name="priority"
-            value="high"
+            value={priorityOptions.HIGH}
+            checked={priorityOptions.HIGH === form.priority}
             onChange={handleChange}
-            checked={form.priority === "high"}
           />
           <label className={`${s.label} ${s.radio}`} htmlFor="formRadioHigh">
             High
@@ -118,5 +110,4 @@ const TodoForm = ({ addTodo }) => {
   );
 };
 
-// export default memo(TodoForm);
 export default TodoForm;

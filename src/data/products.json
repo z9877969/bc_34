@@ -10,7 +10,7 @@
   {
     "id": 2,
     "url": "https://content2.rozetka.com.ua/goods/images/big/221290006.jpg",
-    "price": 44999,
+    "price": "44999",
     "currency": "UAH",
     "model": "iPhone 13",
     "type": "apple"

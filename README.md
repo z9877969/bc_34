@@ -1,27 +1,11 @@
-# bc_34
+# Lesson-11(react-router-dom)
 
-### 1) useState
-### 2) useEffect
-### 3) useRef
-
-## part_1 
-### 1) activePage -> useState 
-### 2) Todo -> useState, useEffect 
-### 3) TodoItem -> cwu useEffect(return) 
-### 4) useLocalStorage, useForm
-
-## part_2 
-### 1) useContext - todoItem (lang) 
-### 2) TodoItem with btnStop -> setInterval = useRef 
-### 3) Todo -> getSnapshot = useRef, (scrollIntoView) 
-### 4) TodoForm -> memo 
-### 5) Todo -> useMemo/filteredList/ 
-### 6) useCallback
-
-## QA
-### (https://usehooks.com/)[https://usehooks.com/]
-### 1) useLocalStorage, useForm
-### 2) memo with children
-### 3) modalContext
-### 4) errorIsLoadingContext
-### 5) todoContext
+https://rozetka.com.ua/dacha-sad-ogorod/c2394297?color=red&size=l#321
+### 1.url structure
+### 2.browser-history
+### 3.BrowserRoter
+### 4.Routes(path, inserted routes)
+### 5.Change url -> render page by path
+### 6.Link, NavLink, styled-component, activeLink
+### 7.Params, useParams
+### 8. Route - index, Outlet

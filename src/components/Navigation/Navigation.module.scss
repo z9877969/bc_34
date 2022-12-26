@@ -1,7 +1,7 @@
 .nav {
   margin: 0;
   padding: 15px;
-  // background-color: rgba(4, 53, 122, 0.9);
+  background-color: rgba(4, 53, 122, 0.9);
 }
 
 .navList {
@@ -19,8 +19,19 @@
 .navLink {
   font-size: 22px;
   padding: 10px 35px;
-  background-color: #ffff0080;
   border: 1px solid yellowgreen;
+  color: yellowgreen;
+  background-color: transparent;
   border-radius: 5px;
   text-decoration: none;
+
+  // &.active {
+  //   background-color: #ffff0080;
+  //   color: black;
+  // }
+}
+
+.activeLink {
+  background-color: #ffff0080;
+  color: black;
 }

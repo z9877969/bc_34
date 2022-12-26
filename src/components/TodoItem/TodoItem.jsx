@@ -1,64 +1,32 @@
-import { Component, useEffect, useState, useRef, useContext } from "react";
 import PropTypes from "prop-types";
-import clsx from "clsx";
-import s from "./TodoItem.module.scss";
+import s from "../TodoList/TodoList.module.scss";
 import sprite from "../../assets/icons/sprite.svg";
-import { ModalContext } from "../../context/ModalContext";
 
 const TodoItem = ({
-  id,
-  date,
-  isDone,
   title,
   descr,
+  id,
+  date,
   priority,
-  isChangeColor,
-  todoItemRef,
+  isDoneStatus,
   updateTodoStatus,
   removeTodo,
 }) => {
-  const setModalComponent = useContext(ModalContext);
-
-  const [count, setCount] = useState(0); // useState() -> [data, setData]
-
-  const intervalIdRef = useRef(null); // outside ref
-
-  const startTimer = () => {
-    intervalIdRef.current = setInterval(() => {
-      setCount((prev) => prev + 1);
-    }, 1000);
-  };
-
-  const stopTimer = () => {
-    clearInterval(intervalIdRef.current);
-  };
-
   return (
-    <li
-      ref={todoItemRef}
-      style={{ backgroundColor: isChangeColor ? "red" : "teal" }}
-      key={id}
-      className={s.toDoItem}
-    >
-      <p className={s.date}>Timer: {count}</p>
-      <button type="button" onClick={startTimer}>
-        StartTimer
-      </button>
-      <button type="button" onClick={stopTimer}>
-        StopTimer
-      </button>
+    <li className={s.toDoItem}>
       <p className={s.date}>{date}</p>
-      <h3 className={clsx(s.title, isDone && s.isDone)}>{title}</h3>
-      <p className={clsx(s.descr, isDone && s.isDone)}>{descr}</p>
-      <p className={clsx(s.descr, isDone && s.isDone)}>
-        {priority.toUpperCase()}
+      <h3 className={`${s.title} ${isDoneStatus && s.isDone}`}>{title}</h3>
+      <p className={`${s.descr} ${isDoneStatus && s.isDone}`}>{descr}</p>
+      <p className={`${s.priority} ${isDoneStatus && s.isDone}`}>
+        Priority - <span>{priority}</span>
       </p>
+
       <label className={s.status}>
         <input
           type="checkbox"
           name="status"
+          checked={isDoneStatus}
           onChange={() => updateTodoStatus(id)}
-          checked={isDone}
         />
         Done
       </label>
@@ -67,25 +35,17 @@ const TodoItem = ({
           <use href={sprite + "#icon-trash"}></use>
         </svg>
       </button>
-      <button
-        className={s.todoBtn}
-        onClick={() => setModalComponent(<h1>Edit form -{id}</h1>)}
-      >
-        <svg className={s.icon}>
-          <use href={sprite + "#icon-edit-pencil"}></use>
-        </svg>
-      </button>
     </li>
   );
 };
 
 TodoItem.propTypes = {
-  id: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
-  isDone: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
   descr: PropTypes.string.isRequired,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  date: PropTypes.string.isRequired,
   priority: PropTypes.string.isRequired,
+  isDoneStatus: PropTypes.bool.isRequired,
   updateTodoStatus: PropTypes.func.isRequired,
   removeTodo: PropTypes.func.isRequired,
 };
