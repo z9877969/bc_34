@@ -1,19 +1,15 @@
-import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import SearchForm from "../components/SearchForm/SearchForm";
 import NewsGallery from "../components/NewsGallery/NewsGallery";
-import { useParams } from "react-router-dom";
 
 const NewsPage = () => {
-  const [searchInput, setSearchInput] = useState("");
-
-  const params = useParams();
-
-  console.log(params);
-
+  const [search, setSearch] = useSearchParams();
+  // (dataObj) => navigate({...location, search: })
+  // const search = new URLSearchParams("?q=cat&color=red&id=21")
   return (
     <div className="App">
-      <SearchForm setSearchInput={setSearchInput} />
-      <NewsGallery searchInput={searchInput} />
+      <SearchForm setSearch={setSearch} />
+      <NewsGallery search={search} setSearch={setSearch} />
     </div>
   );
 };

@@ -1,62 +1,38 @@
-import PropTypes from "prop-types";
 import clsx from "clsx";
-import styled from "styled-components";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import s from "./Navigation.module.scss";
 
-const StyledNavLink = styled(NavLink)`
-  font-size: 22px;
-  padding: 10px 35px;
-  border: 1px solid yellowgreen;
-  color: yellowgreen;
-  background-color: transparent;
-  border-radius: 5px;
-  text-decoration: none;
-
-  &.active {
-    background-color: #ffff0080;
-    color: black;
-  }
-`;
+const getNavLinkClassName = ({ isActive }) =>
+  clsx(s.navLink, isActive && s.activeLink);
 
 const Navigation = () => {
-  console.log("Navigation");
+  const location = useLocation();
+
+  // console.log("location :>> ", location); // location todo
+
   return (
     <nav className={s.nav}>
       <ul className={s.navList}>
         <li className={s.navItem}>
-          <NavLink
-            className={({ isActive }) =>
-              clsx(s.navLink, isActive && s.activeLink)
-            }
-            // style={({ isActive }) =>
-            //   ({color: isActive && "red", })
-            // }
-            to="/"
-          >
+          <NavLink className={getNavLinkClassName} to="/">
             Home
           </NavLink>
         </li>
         <li className={s.navItem}>
-          <StyledNavLink to="/todo">Todo</StyledNavLink>
+          <NavLink className={getNavLinkClassName} to="/todo">
+            Todo
+          </NavLink>
         </li>
         <li className={s.navItem}>
-          <NavLink
-            className={({ isActive }) =>
-              clsx(s.navLink, isActive && s.activeLink)
-            }
-            to="/news"
-          >
+          <NavLink className={getNavLinkClassName} to="/news">
             News
           </NavLink>
-          {/* /country-news */}
         </li>
         <li className={s.navItem}>
           <NavLink
-            className={({ isActive }) =>
-              clsx(s.navLink, isActive && s.activeLink)
-            }
-            to="/country-news"
+            className={getNavLinkClassName}
+            to={{ pathname: "/country-news", search: "?q=red" }}
+            state={location}
           >
             CountryNews
           </NavLink>

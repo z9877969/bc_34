@@ -13,7 +13,7 @@ const CountryNewsList = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    getTopNews()
+    getTopNews(country)
       .then(({ articles }) => {
         setNews(articles);
       })

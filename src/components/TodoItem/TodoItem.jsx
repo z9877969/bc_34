@@ -45,7 +45,7 @@ TodoItem.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   date: PropTypes.string.isRequired,
   priority: PropTypes.string.isRequired,
-  isDoneStatus: PropTypes.bool.isRequired,
+  isDoneStatus: PropTypes.bool,
   updateTodoStatus: PropTypes.func.isRequired,
   removeTodo: PropTypes.func.isRequired,
 };

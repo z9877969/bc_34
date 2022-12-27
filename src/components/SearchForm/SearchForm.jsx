@@ -1,13 +1,19 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
+// import { useLocation, useNavigate } from "react-router-dom";
 import s from "./SearchForm.module.scss";
 
-const SearchForm = ({ setSearchInput }) => {
+const SearchForm = ({ setSearch }) => {
+  // const navigate = useNavigate();
+  // const location = useLocation();
+
   const [input, setInput] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSearchInput(input);
+    if (!input) return;
+    // navigate({ ...location, search: `query=${input}` });
+    setSearch({ query: input, page: 1 });
   };
 
   return (
@@ -26,7 +32,7 @@ const SearchForm = ({ setSearchInput }) => {
 };
 
 SearchForm.propTypes = {
-  setSearchInput: PropTypes.func.isRequired,
+  // setSearchInput: PropTypes.func.isRequired,
 };
 
 export default SearchForm;

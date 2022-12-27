@@ -1,26 +1,47 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { Suspense } from "react";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const CountryNewsPage = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleGoBack = (e) => {
+    navigate(location.state); // null
+  };
+
   return (
     <>
       <h1>CountryNewsPage</h1>
+      <button type="button" onClick={handleGoBack}>
+        Go back
+      </button>
       <nav>
-        <ul>
+        <ul style={{ display: "flex", gap: "20px", justifyContent: "center" }}>
           <li>
-            <NavLink to="en">En</NavLink>
+            <NavLink to="en" state={location.state}>
+              En
+            </NavLink>
           </li>
           <li>
-            <NavLink to="ua">Ua</NavLink>
+            <NavLink to="ua" state={location.state}>
+              Ua
+            </NavLink>
           </li>
           <li>
-            <NavLink to="pl">Pl</NavLink>
+            <NavLink to="pl" state={location.state}>
+              Pl
+            </NavLink>
           </li>
           <li>
-            <NavLink to="fr">Fr</NavLink>
+            <NavLink to="fr" state={location.state}>
+              Fr
+            </NavLink>
           </li>
         </ul>
       </nav>
-      <Outlet />
+      <Suspense fallback={<h1>Loading...</h1>}>
+        <Outlet />
+      </Suspense>
     </>
   );
 };

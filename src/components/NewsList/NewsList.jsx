@@ -29,7 +29,6 @@ const NewsList = ({ news }) => {
 
 NewsList.propTypes = {
   news: PropTypes.array.isRequired,
-  page: PropTypes.number.isRequired,
 };
 
 export default NewsList;
