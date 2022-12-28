@@ -1,4 +1,3 @@
-// import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   counterDecrementAction,
@@ -7,19 +6,10 @@ import {
 } from "../../redux/counter/counterActions";
 import s from "./Counter.module.scss";
 
-// const actionDecrement = (step) => {
-//   return {
-//     type: "actionDecrement",
-//     payload: step,
-//   };
-// };
-
 const Counter = () => {
   const dispatch = useDispatch();
 
   const counter = useSelector((state) => state.counter);
-  
-  // const [step, setStep] = useState(10);
 
   return (
     <div className={s.container}>
