@@ -1,15 +1,11 @@
 import clsx from "clsx";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import s from "./Navigation.module.scss";
 
 const getNavLinkClassName = ({ isActive }) =>
   clsx(s.navLink, isActive && s.activeLink);
 
 const Navigation = () => {
-  const location = useLocation();
-
-  // console.log("location :>> ", location); // location todo
-
   return (
     <nav className={s.nav}>
       <ul className={s.navList}>
@@ -24,17 +20,8 @@ const Navigation = () => {
           </NavLink>
         </li>
         <li className={s.navItem}>
-          <NavLink className={getNavLinkClassName} to="/news">
-            News
-          </NavLink>
-        </li>
-        <li className={s.navItem}>
-          <NavLink
-            className={getNavLinkClassName}
-            to={{ pathname: "/country-news", search: "?q=red" }}
-            state={location}
-          >
-            CountryNews
+          <NavLink className={getNavLinkClassName} to="/counter">
+            Counter
           </NavLink>
         </li>
       </ul>

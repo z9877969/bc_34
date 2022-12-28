@@ -1,8 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
+import { useDispatch } from "react-redux";
 import s from "./TodoForm.module.scss";
-import { useForm } from "../../hooks/useForm";
 
-
+import { useState } from "react";
+import { addTodo } from "../../redux/todo/todoActions";
 
 export const priorityOptions = {
   LOW: "low",
@@ -17,14 +18,20 @@ const initialForm = {
   priority: "",
 };
 
-const TodoForm = ({ addTodo }) => {
-  const { form, handleChange, handleSubmit } = useForm({
-    initialValues: initialForm,
-    onSubmit: (values) => {
-      const data = { ...values, id: uuidv4(), isDoneStatus: false };
-      addTodo(data);
-    },
-  });
+const TodoForm = () => {
+  const dispatch = useDispatch();
+
+  const [form, setForm] = useState(initialForm);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(addTodo({ ...form, isDone: false, id: uuidv4() }));
+  };
 
   return (
     <form className={s.form} onSubmit={handleSubmit}>
