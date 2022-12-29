@@ -3,7 +3,8 @@ import { useDispatch } from "react-redux";
 import s from "./TodoForm.module.scss";
 
 import { useState } from "react";
-import { addTodo } from "../../redux/todo/todoActions";
+// import { addTodo } from "../../redux/todo/todoActions";
+import { addTodo } from "../../redux/todo/todoSlice";
 
 export const priorityOptions = {
   LOW: "low",

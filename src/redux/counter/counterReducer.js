@@ -1,20 +1,29 @@
-import {
-  COUNTER_DECREMENT,
-  COUNTER_INCREMENT,
-  COUNTER_RESET,
-} from "./counterConstants";
+import { createReducer } from "@reduxjs/toolkit";
+import { counterDecrementAction, counterIncrementAction, counterReset } from "./counterActions";
 
-export const counterReducer = (state = 100, action) => {
-  console.log(action);
+export const counterReducer = createReducer(100, (builder) => {
+  builder
+    .addCase(counterDecrementAction, (state, { payload }) => {
+      return state - payload;
+    })
+    .addCase(counterIncrementAction, (state, { payload }) => state + payload)
+    .addCase(counterReset, () => 100);
+  // .addMatcher(
+  //   (action) => action.payload === 20,
+  //   (state, action) => state * action.payload - 15
+  // );
+  // .addDefaultCase((state) => state + 1);
+});
 
-  switch (action.type) {
-    case COUNTER_DECREMENT:
-      return state - action.payload;
-    case COUNTER_INCREMENT:
-      return state + action.payload;
-    case COUNTER_RESET:
-      return 100;
-    default:
-      return state;
-  }
-};
+export const isLoadingReducer = createReducer(false, (b) =>
+  b
+    .addMatcher(
+      (action) => action.type.endsWith("/pending"),
+      () => true
+    )
+    .addMatcher(
+      (action) =>
+        action.type.endsWith("/fulfilled") || action.type.endsWith("/rejected"),
+      () => false
+    )
+);

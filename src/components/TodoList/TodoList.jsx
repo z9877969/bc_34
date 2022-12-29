@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import s from "./TodoList.module.scss";
 import TodoItem from "../TodoItem/TodoItem";
+import { useEffect } from "react";
 
 const getFilteredTodo = (state) => {
   const { items, filter } = state.todo;
@@ -10,6 +11,11 @@ const getFilteredTodo = (state) => {
 
 const TodoList = () => {
   const todo = useSelector(getFilteredTodo);
+  // const todoToLS = useSelector((state) => state.todo.items);
+
+  // useEffect(() => {
+  //   localStorage.setItem("todo", JSON.stringify(todoToLS));
+  // }, [todoToLS]);
 
   return (
     <ul className={s.container}>

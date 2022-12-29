@@ -2,7 +2,13 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import s from "../TodoList/TodoList.module.scss";
 import sprite from "../../assets/icons/sprite.svg";
-import { removeTodo, updateTodoStatus } from "../../redux/todo/todoActions";
+import // removeTodo,
+// updateTodoStatus,
+"../../redux/todo/todoActions";
+import {
+  remove as removeTodo,
+  updateStatus as updateTodoStatus,
+} from "../../redux/todo/todoSlice";
 
 const TodoItem = ({ title, descr, id, date, priority, isDone }) => {
   const dispatch = useDispatch();

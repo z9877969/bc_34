@@ -2,7 +2,12 @@ import { lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import SharedLayout from "./SharedLayout/SharedLayout";
 
-const TodoPage = lazy(() => import("../pages/TodoPage"));
+const TodoPage = lazy(() =>
+  import("../pages/TodoPage").then((module) => ({
+    ...module,
+    default: module.TodoPage,
+  }))
+);
 const HomePage = lazy(() => import("../pages/HomePage"));
 const CounterPage = lazy(() => import("../pages/CounterPage"));
 

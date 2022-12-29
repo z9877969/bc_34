@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { changeTodoFilter } from "../../redux/todo/todoActions";
+// import { changeTodoFilter } from "../../redux/todo/todoActions";
+import { changeFilter } from "../../redux/todo/todoSlice";
 import { priorityOptions } from "../TodoForm/TodoForm";
 
 const TodoFilter = () => {
@@ -13,7 +14,7 @@ const TodoFilter = () => {
       <select
         name="filter"
         value={filter}
-        onChange={(e) => dispatch(changeTodoFilter(e.target.value))}
+        onChange={(e) => dispatch(changeFilter(e.target.value))}
       >
         <option value="all">ALL</option>
         <option value={priorityOptions.LOW}>LOW</option>
