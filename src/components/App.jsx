@@ -1,25 +1,19 @@
-import { lazy } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import SharedLayout from "./SharedLayout/SharedLayout";
-
-const TodoPage = lazy(() =>
-  import("../pages/TodoPage").then((module) => ({
-    ...module,
-    default: module.TodoPage,
-  }))
-);
-const HomePage = lazy(() => import("../pages/HomePage"));
-const CounterPage = lazy(() => import("../pages/CounterPage"));
+import { Navigate, NavLink, Route, Routes } from "react-router-dom";
+import AboutPage from "./AboutPage";
+import GalleryPage from "./GalleryPage";
+import HeaderNav from "./HeaderNav";
+import HomePage from "./HomePage";
 
 const App = () => {
+  
   return (
     <>
+      <HeaderNav />
       <Routes>
-        <Route path="/" element={<SharedLayout />}>
-          <Route index element={<HomePage />} />
-          <Route path="/todo" element={<TodoPage />} />
-          <Route path="/counter" element={<CounterPage />} />
-        </Route>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/gallery" element={<GalleryPage />} />
+
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>
