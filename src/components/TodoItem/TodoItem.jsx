@@ -2,13 +2,9 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import s from "../TodoList/TodoList.module.scss";
 import sprite from "../../assets/icons/sprite.svg";
-import // removeTodo,
-// updateTodoStatus,
-"../../redux/todo/todoActions";
-import {
-  remove as removeTodo,
-  updateStatus as updateTodoStatus,
-} from "../../redux/todo/todoSlice";
+import { updateStatus as updateTodoStatus } from "../../redux/todo/todoSlice";
+import { removeTodo } from "../../redux/todo/todoOperations";
+import { removeTodoApi } from "../../utils/firebaseApi";
 
 const TodoItem = ({ title, descr, id, date, priority, isDone }) => {
   const dispatch = useDispatch();
@@ -31,7 +27,8 @@ const TodoItem = ({ title, descr, id, date, priority, isDone }) => {
         />
         Done
       </label>
-      <button className={s.todoBtn} onClick={() => dispatch(removeTodo(id))}>
+      {/* <button className={s.todoBtn} onClick={() => dispatch(removeTodo(id))}> */}
+      <button className={s.todoBtn} onClick={() => removeTodoApi(id)}>
         <svg className={s.icon}>
           <use href={sprite + "#icon-trash"}></use>
         </svg>

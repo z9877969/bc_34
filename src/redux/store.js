@@ -1,60 +1,49 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import {
-  persistStore,
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from "redux-persist";
-import storage from "redux-persist/lib/storage";
-
-// import { counterReducer } from "./counter/counterReducer";
-// import todoReducer from "./todo/todoReducer";
+import { configureStore } from "@reduxjs/toolkit";
+// import logger from "redux-logger";
 import counterReducerFromSlice from "./counter/counterSlice";
-import todoReducerFromSlice from "./todo/todoSlice";
-// import { todo } from "../data/todo";
+import todoReducer from "./todo/todoSlice";
 
-// const rootReducer = combineReducers({
-//   counter: counterReducer,
-//   todo: todoReducer,
-// });
-
-// const initialState = {
-//   counter: 50,
-//   todo: {
-//     items: todo,
-//     filter: "all",
-//   },
-// };
-
-const persistTodoConfig = {
-  key: "todo",
-  version: 1,
-  storage,
-  whitelist: ["items"],
+const customLogger = (store) => (next) => (action) => {
+  console.group("actionType", action.type);
+  const prevState = store.getState();
+  console.log("prevState", prevState);
+  console.log("action :>> ", action);
+  next(action); // -> action -> middleware | reducer
+  const nextState = store.getState();
+  console.log("nextState :>> ", nextState);
+  console.groupEnd();
 };
 
-const persistedTodoReducer = persistReducer(
-  persistTodoConfig,
-  todoReducerFromSlice
-);
+// const middleware = (store) => {
+//   return (next) => {
+//     return (action) => {
+//       console.log("MIDDLEWARE");
+//       console.log(action);
+//       next(action);
+//     };
+//   };
+// };
+
+// const fn = (a,b,c) => {}
+// const fnA = a => b => c => {}
+
+// const thunk = (store) => (next) => (action) => {
+//   if (typeof action === "function") {
+//     action(store.dispatch, store.getState);
+//     return;
+//   }
+//   next(action);
+// };
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducerFromSlice, // (state, action) => state
-    todo: persistedTodoReducer,
+    counter: counterReducerFromSlice,
+    todo: todoReducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }),
-  // preloadedState: initialState,
+  middleware: (getDefaultMiddleware) => [
+    ...getDefaultMiddleware(),
+    customLogger,
+  ],
+  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(customLogger),
   devTools: process.env.NODE_ENV !== "production", // true
 });
-
-export const persistor = persistStore(store);
