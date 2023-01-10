@@ -1,16 +1,13 @@
 import { useSelector } from "react-redux";
+import { getFilteredTodo, getIsLoading } from "../../redux/todo/todoSelectors";
 import TodoItem from "../TodoItem/TodoItem";
 import s from "./TodoList.module.scss";
 
-const getFilteredTodo = (state) => {
-  const { items, filter } = state.todo;
-  if (filter === "all") return items;
-  return items.filter((el) => el.priority === filter);
-};
-
 const TodoList = () => {
   const todo = useSelector(getFilteredTodo);
-  const isLoading = useSelector((state) => state.todo.isLoading);
+  const isLoading = useSelector(getIsLoading);
+
+  console.log("TodoList");
 
   return isLoading ? (
     <h1>Loading...</h1>

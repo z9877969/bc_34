@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import s from "./TodoForm.module.scss";
 import { addTodo } from "../../redux/todo/todoOperations";
+import { getTodo } from "../../redux/todo/todoSelectors";
 
 export const priorityOptions = {
   LOW: "low",
@@ -21,6 +21,7 @@ const TodoForm = () => {
   const dispatch = useDispatch();
 
   const [form, setForm] = useState(initialForm);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;

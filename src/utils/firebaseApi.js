@@ -24,3 +24,9 @@ export const getTodoApi = () => {
 export const removeTodoApi = (id) => {
   return axios.delete(`/todo/${id}.json`).then(() => id);
 };
+
+export const updateStatusApi = ({ id, isDone }) => {
+  return axios
+    .patch(`/todo/${id}.json`, { isDone })
+    .then(({ data }) => ({ ...data, id }));
+};
