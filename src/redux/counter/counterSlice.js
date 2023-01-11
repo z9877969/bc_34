@@ -13,12 +13,9 @@ const counterSlice = createSlice({
     reset() {
       return 100;
     },
-    logout() {
-      return 0;
-    },
   },
 });
 
-export const { decrement, increment, reset, logout } = counterSlice.actions;
+export const { decrement, increment, reset } = counterSlice.actions;
 
-export default counterSlice.reducer; // (state, action) => state
+export default counterSlice.reducer;

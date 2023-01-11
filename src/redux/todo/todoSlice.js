@@ -1,13 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { logout } from "../counter/counterSlice";
 import {
   addTodo,
   getTodo,
   removeTodo,
   updateTodoStatus,
 } from "./todoOperations";
-
-console.log(addTodo.pending());
 
 const pending = (state) => {
   state.isLoading = true;
@@ -20,18 +17,15 @@ const rejected = (state, { payload }) => {
 const todoSlice = createSlice({
   name: "todo",
   initialState: {
-    items: [], // request -> isLoading | items | error
+    items: [],
     filter: "all",
-    isLoading: false, // true
+    isLoading: false,
     error: null,
     isOpen: false,
   },
   reducers: {
     changeFilter(state, { payload }) {
       state.filter = payload;
-    },
-    toggleIsOpen(state) {
-      state.isOpen = !state.isOpen;
     },
   },
   extraReducers: (builder) =>
@@ -68,6 +62,6 @@ const todoSlice = createSlice({
       }),
 });
 
-export const { changeFilter, toggleIsOpen } = todoSlice.actions;
+export const { changeFilter } = todoSlice.actions;
 
 export default todoSlice.reducer;

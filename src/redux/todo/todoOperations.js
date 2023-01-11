@@ -6,37 +6,38 @@ import {
   updateStatusApi,
 } from "../../utils/firebaseApi";
 
+export const todoErrorMessages = {
+  CONDITION_ITEM_ALREADY_EXIST: "CONDITION_ITEM_ALREADY_EXIST",
+};
+
 export const addTodo = createAsyncThunk(
   "todo/add",
-  async (todo, thunkApi) => {
-    // dispatch({type: "todo/add/pending"})
-    try {
-      const data = await addTodoApi(todo);
-      return data; // dispatch({type: todo/add/fulfilled, payload: data})
-    } catch (error) {
-      return thunkApi.rejectWithValue(error.message); // // dispatch({type: todo/add/rejected, payload: error.message})
+  async (todo, { rejectWithValue, getState }) => {
+    const { items } = getState().todo;
+
+    if (items.some((el) => el.title === todo.title)) {
+      return rejectWithValue(todoErrorMessages.CONDITION_ITEM_ALREADY_EXIST);
     }
-  },
-  {
-    condition: (todo, options) => {
-      console.log("options :>> ", options);
-      const { items } = options.getState().todo;
-      if (items.find((el) => el.title === todo.title)) {
-        // alert("Todo already")
-        return false;
-      } // false
-      return true;
-    },
+
+    const { localId, idToken } = getState().auth;
+
+    try {
+      const data = await addTodoApi({ todo, localId, idToken });
+      return data;
+    } catch (error) {
+      console.log(error.message);
+      return rejectWithValue(error.message);
+    }
   }
-); // -> todo/add/pending | todo/add/fulfilled | todo/add/rejected
-// dispatch(addTodo({...form, isDone: false}))
+);
 
 export const getTodo = createAsyncThunk(
   "todo/get",
   async (_, thunkApi) => {
-    console.log("thunkApi :>> ", thunkApi);
+    const { localId, idToken } = thunkApi.getState().auth;
+
     try {
-      const data = await getTodoApi();
+      const data = await getTodoApi({ localId, idToken });
       return data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
@@ -52,9 +53,11 @@ export const getTodo = createAsyncThunk(
 
 export const removeTodo = createAsyncThunk(
   "todo/remove",
-  async (id, { rejectWithValue }) => {
+  async (id, { rejectWithValue, getState }) => {
+    const { localId, idToken } = getState().auth;
+
     try {
-      const dataId = await removeTodoApi(id);
+      const dataId = await removeTodoApi({ id, localId, idToken });
       return dataId;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -62,25 +65,14 @@ export const removeTodo = createAsyncThunk(
   }
 );
 
-// export const updateTodoStatus =
-//   ({ id, isDone }) =>
-//   (dispatch) => {
-//     dispatch(upadateStatusTodoRequest());
-
-//     updateStatusApi({ id, isDone })
-//       .then((data) => dispatch(upadateStatusTodoSuccess(data)))
-//       .catch((err) => dispatch(upadateStatusTodoError(err.message)));
-//   };
-
 export const updateTodoStatus = createAsyncThunk(
   "todo/updateStatus",
   async ({ id, isDone }, { rejectWithValue }) => {
-    // dispatch({type: "todo/updateStatus/pending"})
     try {
       const data = await updateStatusApi({ id, isDone });
-      return data; // dispatch({type: "todo/updateStatus/fulfilled", payload: data})
+      return data;
     } catch (error) {
-      return rejectWithValue(error.message); // dispatch({type: "todo/updateStatus/rejected", payload: error.message})
+      return rejectWithValue(error.message);
     }
   }
 );

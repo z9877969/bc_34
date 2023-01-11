@@ -6,14 +6,6 @@ export const getIsLoading = (state) => state.todo.isLoading;
 
 export const getIsTodoEmpty = (state) => getTodo(state).length === 0;
 
-// export const getFilteredTodo = (state) => {
-//   console.log("getFilterTodo");
-//   const items = getTodo(state);
-//   const filter = getTodoFilter(state);
-//   if (filter === "all") return items;
-//   return items.filter((el) => el.priority === filter); // [] | []
-// };
-
 export const getFilteredTodo = createSelector(
   [getTodo, getTodoFilter],
   (todo, filter) => {
@@ -22,14 +14,3 @@ export const getFilteredTodo = createSelector(
     return todo.filter((el) => el.priority === filter);
   }
 );
-
-// {
-//     // cach = {
-//     // todo, filter, result
-//     // }
-//     // todo = getTodo
-//     // filter = getFilter
-//     // return result
-// }
-// JSON.stringify({})
-

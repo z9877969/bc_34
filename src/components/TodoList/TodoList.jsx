@@ -7,8 +7,6 @@ const TodoList = () => {
   const todo = useSelector(getFilteredTodo);
   const isLoading = useSelector(getIsLoading);
 
-  console.log("TodoList");
-
   return isLoading ? (
     <h1>Loading...</h1>
   ) : (

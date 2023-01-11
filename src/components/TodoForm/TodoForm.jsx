@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import s from "./TodoForm.module.scss";
 import { addTodo } from "../../redux/todo/todoOperations";
-import { getTodo } from "../../redux/todo/todoSelectors";
 
 export const priorityOptions = {
   LOW: "low",
@@ -21,7 +20,6 @@ const TodoForm = () => {
   const dispatch = useDispatch();
 
   const [form, setForm] = useState(initialForm);
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -74,7 +72,7 @@ const TodoForm = () => {
             type="radio"
             name="priority"
             value={priorityOptions.LOW}
-            checked={priorityOptions.LOW === form.priority} // "low" === priority
+            checked={priorityOptions.LOW === form.priority}
             onChange={handleChange}
           />
           <label className={`${s.label} ${s.radio}`} htmlFor="formRadioLow">
