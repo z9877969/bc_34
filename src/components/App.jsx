@@ -16,29 +16,59 @@ const TodoPage = lazy(() =>
 const HomePage = lazy(() => import("../pages/HomePage"));
 const CounterPage = lazy(() => import("../pages/CounterPage"));
 
+const PrivateRoute = ({
+  children,
+  // component: Component,
+  redirectTo = "/login",
+}) => {
+  const isAuth = useSelector(getIsAuth);
+  return isAuth ? children : <Navigate to={redirectTo} />;
+  // return isAuth ? <Component /> : <Navigate to={"/login"} />;
+};
+
+const PublicRoute = ({ component, restricted, redirectTo = "/todo" }) => {
+  const isAuth = useSelector(getIsAuth);
+  // return isAuth && restricted ? <Navigate to={"/"} /> : component;
+  return !isAuth ? component : <Navigate to={redirectTo} />;
+};
+
 const App = () => {
   const dispatch = useDispatch();
-
-  const isAuth = useSelector(getIsAuth);
 
   useEffect(() => {
     dispatch(getCurUser());
   }, [dispatch]);
 
-  return isAuth ? (
+  return (
     <Routes>
       <Route path="/" element={<SharedLayout />}>
+        {/* <Route index element={<PublicRoute component={<HomePage />} />} /> */}
         <Route index element={<HomePage />} />
-        <Route path="/todo" element={<TodoPage />} />
-        <Route path="/counter" element={<CounterPage />} />
+        <Route
+          path="/todo"
+          element={
+            <PrivateRoute redirectTo="/">
+              <TodoPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/counter"
+          element={
+            <PrivateRoute redirectTo="/register">
+              <CounterPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/login"
+          element={<PublicRoute restricted component={<LoginPage />} />}
+        />
+        <Route
+          path="/register"
+          element={<PublicRoute restricted component={<RegisterPage />} />}
+        />
       </Route>
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
-  ) : (
-    <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="*" element={<Navigate to="/login" />} />
     </Routes>
   );
 };

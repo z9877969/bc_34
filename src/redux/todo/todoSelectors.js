@@ -9,7 +9,6 @@ export const getIsTodoEmpty = (state) => getTodo(state).length === 0;
 export const getFilteredTodo = createSelector(
   [getTodo, getTodoFilter],
   (todo, filter) => {
-    console.log("getFilteredTodo_reselect");
     if (filter === "all") return todo;
     return todo.filter((el) => el.priority === filter);
   }

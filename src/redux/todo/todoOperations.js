@@ -5,6 +5,7 @@ import {
   removeTodoApi,
   updateStatusApi,
 } from "../../utils/firebaseApi";
+import { errorHandler } from "../error/errorHandler";
 
 export const todoErrorMessages = {
   CONDITION_ITEM_ALREADY_EXIST: "CONDITION_ITEM_ALREADY_EXIST",
@@ -12,7 +13,7 @@ export const todoErrorMessages = {
 
 export const addTodo = createAsyncThunk(
   "todo/add",
-  async (todo, { rejectWithValue, getState }) => {
+  async (todo, { rejectWithValue, getState, dispatch }) => {
     const { items } = getState().todo;
 
     if (items.some((el) => el.title === todo.title)) {
@@ -25,7 +26,9 @@ export const addTodo = createAsyncThunk(
       const data = await addTodoApi({ todo, localId, idToken });
       return data;
     } catch (error) {
-      console.log(error.message);
+      setTimeout(() => {
+        dispatch(errorHandler({ error, cb: () => addTodo(todo) })); // dispatch((() => addTodo(todo))())
+      }, 0);
       return rejectWithValue(error.message);
     }
   }
@@ -40,6 +43,9 @@ export const getTodo = createAsyncThunk(
       const data = await getTodoApi({ localId, idToken });
       return data;
     } catch (error) {
+      setTimeout(() => {
+        thunkApi.dispatch(errorHandler({ error, cb: getTodo }));
+      }, 0);
       return thunkApi.rejectWithValue(error.message);
     }
   },
@@ -53,13 +59,16 @@ export const getTodo = createAsyncThunk(
 
 export const removeTodo = createAsyncThunk(
   "todo/remove",
-  async (id, { rejectWithValue, getState }) => {
+  async (id, { rejectWithValue, getState, dispatch }) => {
     const { localId, idToken } = getState().auth;
 
     try {
       const dataId = await removeTodoApi({ id, localId, idToken });
       return dataId;
     } catch (error) {
+      setTimeout(() => {
+        dispatch(errorHandler({ error, cb: () => removeTodo(id) }));
+      }, 0);
       return rejectWithValue(error.message);
     }
   }
@@ -67,11 +76,14 @@ export const removeTodo = createAsyncThunk(
 
 export const updateTodoStatus = createAsyncThunk(
   "todo/updateStatus",
-  async ({ id, isDone }, { rejectWithValue }) => {
+  async ({ id, isDone }, { rejectWithValue, dispatch }) => {
     try {
       const data = await updateStatusApi({ id, isDone });
       return data;
     } catch (error) {
+      setTimeout(() => {
+        dispatch(errorHandler({ error, cb: () => updateTodoStatus({ id, isDone }) }));
+      }, 0);
       return rejectWithValue(error.message);
     }
   }

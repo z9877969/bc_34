@@ -1,9 +1,7 @@
-# Lesson-18(auth)
+# Lesson-19(restricted-routes)
 
-### 1. auth-request & token ринцип, як це працює
+### 1. logout
 
-### 2. Routes, RegisterPage/LoginPage, Navigate
+### 2. public/private routes
 
-### 3. AuthForm(shared)
-
-### 4. logout
+### 3. errorHandler

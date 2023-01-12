@@ -19,7 +19,6 @@ const AuthForm = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     cbOnSubmit(form);
-    // (form) => d(rU(form))
   };
 
   return (
@@ -36,28 +35,10 @@ const AuthForm = ({
           />
         </label>
       ))}
-      {/* <label>
-        <p>Email</p>
-        <input
-          type="text"
-          name="email"
-          value={form.email}
-          onChange={handleChange}
-          placeholder="Input email..."
-        />
-      </label>
-      <label>
-        <p>Password</p>
-        <input
-          type="text"
-          name="password"
-          value={form.password}
-          onChange={handleChange}
-          placeholder="Input email..."
-        />
-      </label> */}
-      <button type="submit">{submitBtnTitle}</button>
-      <Link to={to}>{linkTitle}</Link>
+      <div>
+        <button type="submit">{submitBtnTitle}</button>
+        <Link to={to}>{linkTitle}</Link>
+      </div>
     </form>
   );
 };

@@ -1,11 +1,14 @@
 import clsx from "clsx";
+import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { logoOut } from "../../redux/auth/authSlice";
 import s from "./Navigation.module.scss";
 
 const getNavLinkClassName = ({ isActive }) =>
   clsx(s.navLink, isActive && s.activeLink);
 
 const Navigation = () => {
+  const dispatch = useDispatch();
   return (
     <nav className={s.nav}>
       <ul className={s.navList}>
@@ -25,6 +28,9 @@ const Navigation = () => {
           </NavLink>
         </li>
       </ul>
+      <button type="click" onClick={() => dispatch(logoOut())}>
+        LogOut
+      </button>
     </nav>
   );
 };

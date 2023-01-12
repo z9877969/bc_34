@@ -1,10 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { logoOut } from "../auth/authSlice";
 import {
   addTodo,
   getTodo,
   removeTodo,
   updateTodoStatus,
 } from "./todoOperations";
+
+const initialState = {
+  items: [],
+  filter: "all",
+  isLoading: false,
+  error: null,
+  isOpen: false,
+};
 
 const pending = (state) => {
   state.isLoading = true;
@@ -16,13 +25,7 @@ const rejected = (state, { payload }) => {
 
 const todoSlice = createSlice({
   name: "todo",
-  initialState: {
-    items: [],
-    filter: "all",
-    isLoading: false,
-    error: null,
-    isOpen: false,
-  },
+  initialState,
   reducers: {
     changeFilter(state, { payload }) {
       state.filter = payload;
@@ -59,7 +62,8 @@ const todoSlice = createSlice({
         state.items = state.items.map(
           (el) => (el.id !== payload.id ? el : { ...el, ...payload }) // el
         );
-      }),
+      })
+      .addCase(logoOut, () => initialState),
 });
 
 export const { changeFilter } = todoSlice.actions;

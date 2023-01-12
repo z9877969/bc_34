@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import AuthForm from "../components/AuthForm/AuthForm";
 import { registerUser } from "../redux/auth/authOperations";
 
@@ -16,22 +16,17 @@ const options = [
     name: "password",
     placeholder: "Input password...",
   },
-//   {
-//     title: "ConfirmPassword",
-//     type: "text",
-//     name: "confirmPassword",
-//     placeholder: "Confirm password...",
-//   },
 ];
 
 const initialValues = {
   email: "",
   password: "",
-//   confirmPassword: "",
 };
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation()
 
   const handleSubmit = (form) => {
     dispatch(registerUser(form));
@@ -40,6 +35,9 @@ const RegisterPage = () => {
   return (
     <>
       <h1>RegisterPage</h1>
+      <button type="button" onClick={() => navigate("/login", { state: {from: location} })}>
+        GoBack
+      </button>
       <AuthForm
         options={options}
         initialValues={initialValues}

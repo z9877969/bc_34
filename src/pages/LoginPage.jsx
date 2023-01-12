@@ -1,4 +1,5 @@
 import { useDispatch } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
 import AuthForm from "../components/AuthForm/AuthForm";
 import { loginUser } from "../redux/auth/authOperations";
 
@@ -24,6 +25,9 @@ const initialValues = {
 
 const LoginPage = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+
+  console.log("location :>> ", location);
 
   const cbOnSubmit = (form) => {
     dispatch(loginUser(form));
@@ -31,6 +35,7 @@ const LoginPage = () => {
   return (
     <>
       <h1>LoginPage</h1>
+      <Link to={location.state?.from || "/login"}>GoBack</Link>
       <AuthForm
         to="/register"
         linkTitle="Register"
